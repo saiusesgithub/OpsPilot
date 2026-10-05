@@ -1,0 +1,27 @@
+﻿{
+  "api_endpoint": {
+    "sensitive": false,
+    "type": "string",
+    "value": "https://5ke5lm6rke.execute-api.us-east-1.amazonaws.com/"
+  },
+  "dynamodb_table_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "ops-pilot-incidents"
+  },
+  "event_bus_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "ops-pilot"
+  },
+  "sqs_queue_url": {
+    "sensitive": false,
+    "type": "string",
+    "value": "https://sqs.us-east-1.amazonaws.com/104044935681/ops-pilot-incidents"
+  },
+  "state_machine_arn": {
+    "sensitive": false,
+    "type": "string",
+    "value": "arn:aws:states:us-east-1:104044935681:stateMachine:ops-pilot-incident-workflow"
+  }
+}
