@@ -1,0 +1,49 @@
+{
+  "name": "ops-pilot",
+  "private": true,
+  "scripts": {
+    "build:lambdas": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "test:property": "jest tests/property"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.600.0",
+    "@aws-sdk/client-dynamodb": "^3.600.0",
+    "@aws-sdk/client-eventbridge": "^3.600.0",
+    "@aws-sdk/client-sfn": "^3.600.0",
+    "@aws-sdk/client-sns": "^3.600.0",
+    "@aws-sdk/lib-dynamodb": "^3.1146.0",
+    "@modelcontextprotocol/server-filesystem": "^2026.8.31",
+    "@types/aws-lambda": "^8.10.140",
+    "@types/jest": "^29.0.0",
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.20.0",
+    "fast-check": "^3.20.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "typescript": "^5.4.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/tests"
+    ],
+    "testMatch": [
+      "**/*.test.ts"
+    ],
+    "transform": {
+      "^.+\\.ts$": [
+        "ts-jest",
+        {
+          "tsconfig": {
+            "module": "CommonJS",
+            "moduleResolution": "node"
+          }
+        }
+      ]
+    },
+    "testTimeout": 30000
+  }
+}

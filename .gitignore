@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+samconfig.toml
+.env
+.aws-sam/
