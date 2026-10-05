@@ -1,0 +1,42 @@
+{
+  "name": "incident-response-advisor",
+  "displayName": "OpsPilot Incident Response Advisor",
+  "version": "1.0.0",
+  "description": "Domain knowledge power for cloud incident response. Provides OpsPilot severity reasoning, telemetry interpretation, root cause identification, and remediation guidance aligned with the OpsPilot incident model.",
+  "skills": [
+    {
+      "name": "interpret-telemetry",
+      "description": "Interpret raw telemetry values and identify which OpsPilot incident scenario they match",
+      "instructions": "When given telemetry (errorRate, p95Latency, cpuUsage, errorCodes, severityIndicators), map it to one of the three OpsPilot scenarios: database_exhaustion, cpu_overload, or deployment_regression. Then apply the severity formula: score = (errorRate * 40) + min(20, log10(p95Latency+1)*10) + (cpuUsage * 20) + anomaly_bonuses. If severityIndicators includes 'critical', floor to 75. Clamp to [0,100]."
+    },
+    {
+      "name": "severity-reasoning",
+      "description": "Explain why a given severity score was calculated and whether it satisfies OpsPilot invariants",
+      "instructions": "For any severity score, explain each component: errorRate contribution (max 40), latency contribution (log-scale, max 20), CPU contribution (max 20), anomaly bonuses (max 15), critical floor (75 minimum). Verify the score satisfies: range [0,100], monotonicity, critical floor >= 75, idempotence."
+    },
+    {
+      "name": "root-cause-analysis",
+      "description": "Identify likely root cause from incident telemetry following the OpsPilot analysis format",
+      "instructions": "Produce an AnalysisResult with: rootCause (1-500 chars), evidence[] (1-10 items citing specific metric values), impact (1-300 chars describing user/service effect), remediationSteps[3] (exactly 3 actionable steps ordered by urgency). Match the format of FALLBACK_ANALYSES in generateAnalysis/handler.ts."
+    },
+    {
+      "name": "remediation-advisor",
+      "description": "Suggest remediation steps for an active OpsPilot incident",
+      "instructions": "Given an incident scenario and severity, produce exactly 3 prioritized remediation steps: 1) Immediate mitigation (stop the bleeding), 2) Root cause investigation, 3) Prevention/long-term fix. Keep each step under 300 characters and actionable by a single engineer."
+    }
+  ],
+  "documentation": [
+    {
+      "title": "OpsPilot Severity Formula",
+      "content": "severity = clamp(round(errorRate*40 + min(20, log10(p95Latency+1)*10) + cpuUsage*20 + anomalyBonus), 0, 100). Critical floor: if 'critical' in severityIndicators, severity = max(severity, 75)."
+    },
+    {
+      "title": "Three Incident Scenarios",
+      "content": "1. database_exhaustion: orders-api, high errorRate+latency, DB_CONNECTION_TIMEOUT errors, normal CPU. 2. cpu_overload: media-processor, CPU>90%, REQUEST_TIMEOUT, critical indicator. 3. deployment_regression: auth-api, errorRate spike after recent deployment, INTERNAL_SERVER_ERROR."
+    },
+    {
+      "title": "OpsPilot Pipeline",
+      "content": "POST /events -> API GW -> Ingest Lambda (validate+UUID+EventBridge) -> SQS -> Processor (dedup+SFN) -> Step Functions: LoadContext -> Parallel(AnalyzeMetrics, CorrelateEvents) -> CalculateSeverity -> GenerateAnalysis(Bedrock+fallback) -> StoreIncident(DynamoDB) -> Success"
+    }
+  ]
+}

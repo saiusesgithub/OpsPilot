@@ -1,0 +1,20 @@
+﻿{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "c:\\Users\\Saisr\\Desktop\\Coding\\OpsPilot"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "read_file",
+        "read_multiple_files",
+        "list_directory",
+        "get_file_info",
+        "list_allowed_directories"
+      ]
+    }
+  }
+}

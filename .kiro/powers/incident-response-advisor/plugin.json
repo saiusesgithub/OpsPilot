@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "incident-response-advisor",
+  "version": "1.0.0",
+  "description": "OpsPilot incident response advisor for telemetry interpretation, severity reasoning, root-cause analysis, and remediation guidance.",
+  "author": {
+    "name": "OpsPilot"
+  },
+  "keywords": [
+    "incident",
+    "severity",
+    "telemetry",
+    "root cause",
+    "remediation",
+    "errorRate",
+    "p95Latency",
+    "cpu",
+    "DB_CONNECTION_TIMEOUT",
+    "REQUEST_TIMEOUT"
+  ],
+  "license": "MIT"
+}

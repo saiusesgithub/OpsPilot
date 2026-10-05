@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Validate Backend — TypeScript + Property Tests + Terraform",
+      "trigger": "PostFileSave",
+      "description": "On save of any backend TypeScript or Terraform file: runs tsc --noEmit (hard gate), then fast-check property tests for severity invariants, then terraform fmt -check and terraform validate. Catches type errors and Terraform drift before deployment.",
+      "matcher": "backend[\\\\/].*\\.ts$|infra[\\\\/].*\\.tf$",
+      "action": {
+        "type": "command",
+        "command": "cd /d \"%WORKSPACE_ROOT%\" && npm run typecheck && npx jest tests/property --no-coverage --passWithNoTests && cd infra && terraform fmt -check && terraform validate",
+        "timeout": 120
+      }
+    }
+  ]
+}
