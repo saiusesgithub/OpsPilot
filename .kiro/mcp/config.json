@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "${workspaceRoot}"],
+      "description": "Filesystem MCP server providing structured read access to OpsPilot project files. Used by the ops-pilot-engineer agent to inspect deployment state, Terraform outputs, and incident data without leaving the IDE."
+    }
+  }
+}
