@@ -19,6 +19,12 @@ export function IncidentPanel({ incident }: { incident?: Incident }) {
     <div className="incident-heading"><div><div className="section-kicker"><span className="live-dot" /> ACTIVE INCIDENT</div><h2>{incident.service ?? telemetry.serviceName ?? 'Unknown service'}</h2><span className="incident-id">{incident.incidentId ?? 'Incident ID unavailable'}</span></div><div className="incident-tags"><span className={`badge severity ${severityLabel(incident.severity).toLowerCase()}`}>{severityLabel(incident.severity)} · {incident.severity ?? '—'}</span><span className={`badge status ${String(incident.status ?? 'unknown').toLowerCase()}`}>{incident.status ?? 'Unknown'}</span></div></div>
     <div className="metrics-grid"><Metric label="Error rate" value={`${metricPercent(telemetry.errorRate)?.toFixed(1) ?? '—'}%`} /><Metric label="P95 latency" value={telemetry.p95Latency != null ? `${Number(telemetry.p95Latency).toLocaleString()} ms` : '—'} /><Metric label="CPU utilization" value={`${metricPercent(telemetry.cpuUsage ?? telemetry.cpu)?.toFixed(0) ?? '—'}%`} /><Metric label="Started" value={formatTime(incident.createdAt)} /></div>
     {!!codes.length && <div className="error-codes"><span className="subtle-label">ERROR CODES</span>{codes.map((code, i) => <code key={`${code}-${i}`}>{code}</code>)}</div>}
+    <div className="incident-timeline" aria-label="Incident pipeline">
+      <div className="timeline-stage done"><span className="tl-dot" /><span className="tl-label">Signal</span></div>
+      <div className="timeline-stage done"><span className="tl-dot" /><span className="tl-label">Ingested</span></div>
+      <div className="timeline-stage done"><span className="tl-dot" /><span className="tl-label">Severity calculated</span></div>
+      <div className={`timeline-stage ${analysis ? 'done' : 'pending'}`}><span className="tl-dot" /><span className="tl-label">Analysis ready</span></div>
+    </div>
     <div className="analysis-header"><span className="analysis-icon">✦</span><div><div className="section-kicker">AI INCIDENT ANALYSIS</div><span>Automated signal correlation</span></div><span className="analysis-ready">ANALYSIS READY</span></div>
     <div className="analysis-grid"><AnalysisBlock title="Probable cause" value={cause} /><AnalysisBlock title="Evidence" value={evidence} /><AnalysisBlock title="Impact" value={impact} /><AnalysisBlock title="Recommended actions" value={actions} /></div>
   </section>
