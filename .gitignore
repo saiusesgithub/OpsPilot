@@ -7,3 +7,10 @@ dist/
 samconfig.toml
 .env
 .aws-sam/
+# Local environment overrides
+.env.local
+**/.env.local
+
+# Terraform state (may contain secrets)
+terraform-state.json
+**/terraform-state.json
